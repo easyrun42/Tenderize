@@ -5,10 +5,10 @@ https://github.com/easyrun42/Tenderize/assets/136458308/a66fae29-9038-49dc-86a1-
 
 # 🪙 Token Balances
 - Inside `utils/tokens`, you'll find all you need for each token:
-  1. Function names for fetching balances.
-  2. ABI (Application Binary Interface).
-  3. ERC20 Address.
-  4. Token name.
+  - Function names for fetching balances.
+  - ABI (Application Binary Interface).
+  - ERC20 Address.
+  - Token name.
 
 ## 🔍 How to Fetch Balances
 - With the `<Token />` component, we use the magic of wagmi and rainbowkit together. Key methods like `useContractRead` are tucked inside the `useToken` hook.
