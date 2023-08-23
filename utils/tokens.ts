@@ -28,8 +28,19 @@ export const tokens = [
         stateMutability: "view",
         type: "function",
       },
+      {
+        inputs: [
+          { internalType: "address", name: "to", type: "address" },
+          { internalType: "uint256", name: "value", type: "uint256" },
+        ],
+        name: "transfer",
+        outputs: [{ internalType: "bool", name: "", type: "bool" }],
+        stateMutability: "nonpayable",
+        type: "function",
+      },
     ],
   },
+
   {
     name: "USDT",
     erc20Address: "0xdAC17F958D2ee523a2206206994597C13D831ec7",
@@ -49,6 +60,18 @@ export const tokens = [
         outputs: [{ internalType: "uint8", name: "", type: "uint8" }],
         payable: false,
         stateMutability: "view",
+        type: "function",
+      },
+      {
+        constant: false,
+        inputs: [
+          { name: "_to", type: "address" },
+          { name: "_value", type: "uint256" },
+        ],
+        name: "transfer",
+        outputs: [],
+        payable: false,
+        stateMutability: "nonpayable",
         type: "function",
       },
     ],
@@ -72,6 +95,18 @@ export const tokens = [
         outputs: [{ internalType: "uint8", name: "", type: "uint8" }],
         payable: false,
         stateMutability: "view",
+        type: "function",
+      },
+      {
+        constant: false,
+        inputs: [
+          { internalType: "address", name: "dst", type: "address" },
+          { internalType: "uint256", name: "wad", type: "uint256" },
+        ],
+        name: "transfer",
+        outputs: [{ internalType: "bool", name: "", type: "bool" }],
+        payable: false,
+        stateMutability: "nonpayable",
         type: "function",
       },
     ],

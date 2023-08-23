@@ -18,14 +18,17 @@ export const useToken = ({
   const [tokenBalance, setTokenBalance] = useState(0);
 
   // Getting token balance from erc20 address
-  const { data: _tokenBalance, isLoading: isLoadingTokenBalance } =
-    useContractRead({
-      address: tokenAddress as `0x`,
-      abi: tokenAbi,
-      functionName,
-      args: [userAddress],
-      chainId: 1,
-    });
+  const {
+    data: _tokenBalance,
+    isLoading: isLoadingTokenBalance,
+    refetch,
+  } = useContractRead({
+    address: tokenAddress as `0x`,
+    abi: tokenAbi,
+    functionName,
+    args: [userAddress],
+    chainId: 1,
+  });
 
   // Getting token decimals from erc20 address
   const { data: _tokenDecimals, isLoading: isLoadingTokenDecimal } =
@@ -50,11 +53,16 @@ export const useToken = ({
 
   const isLoading = isLoadingTokenDecimal || isLoadingTokenBalance;
 
+  const isValidTokenDecimal = tokenDecimals > 0;
+
   useEffect(() => {
     setTokenBalance(totalBalance);
   }, [totalBalance]);
 
   return {
+    refetch,
+    isValidTokenDecimal,
+    tokenDecimals,
     isLoading,
     tokenBalance,
     setTokenBalance,

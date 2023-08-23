@@ -4,7 +4,7 @@ export const Token = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  max-width: 350px;
+  max-width: 450px;
 `;
 
 export const TokenHeader = styled.div`
@@ -73,7 +73,7 @@ export const TokenButton = styled.button`
   padding: 12px;
   font-size: 16px;
   width: 100%;
-  max-width: 150px;
+  max-width: 235px;
   cursor: pointer;
   margin-top: 30px;
 
