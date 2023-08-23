@@ -1,7 +1,6 @@
 # 🎥 Demo Video
 
-https://github.com/easyrun42/Tenderize/assets/136458308/1aa29856-323e-4546-b5ea-255a3462c443
-
+https://github.com/easyrun42/Tenderize/assets/136458308/a66fae29-9038-49dc-86a1-7f2eca8804c1
 
 
 # 🪙 Token Balances
