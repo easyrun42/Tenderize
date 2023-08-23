@@ -10,7 +10,8 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
-        <link rel="icon" href="../public/images/steak.png" />
+        <link rel="icon" href="/image/steak.png" />
+        <title>Tenderize Portfolio</title>
       </Head>
       <WagmiConfig config={wagmiConfig}>
         <RainbowKitProvider chains={chains}>
