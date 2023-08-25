@@ -14,7 +14,6 @@ const { connectors } = getDefaultWallets({
   projectId: process.env.NEXT_PUBLIC_PROJECT_ID as string,
   chains,
 });
-
 export const wagmiConfig = createConfig({
   autoConnect: true,
   connectors,

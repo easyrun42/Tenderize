@@ -14,6 +14,7 @@ import Loading from "../Loading/Loading";
 import useTokenTransfer from "../../hooks/useTokenTransfer";
 import { ethers } from "ethers";
 import { switchNetwork } from "@wagmi/core";
+import toast from "react-hot-toast";
 
 interface IToken {
   tokenName: string;
@@ -45,11 +46,10 @@ const Token = ({
     : "";
 
   const {
-    refetch: refetchToken,
     isLoading: isLoadingToken,
-    setTokenBalance,
     tokenBalance,
     tokenDecimals,
+    setTokenBalance,
     isValidTokenDecimal,
   } = useToken({
     tokenAddress,
@@ -64,7 +64,9 @@ const Token = ({
     reset,
     functionName: "transfer",
     userAddress: checkSummedAddress,
-    refetchToken,
+    setTokenBalance,
+    tokenBalance,
+    originalAmount: amount,
     amount:
       isValidTokenDecimal && amount
         ? ethers.utils.parseUnits(amount, tokenDecimals).toString()
@@ -75,7 +77,7 @@ const Token = ({
 
   const isNotOnEthereumMainnet = chain?.id !== 1;
 
-  const isLoading = isLoadingToken || isLoadingTransaction;
+  const isFormBlocked = isLoadingToken || isLoadingTransaction;
 
   const onTransferSubmit = () => {
     setShouldShowTransferInput(true);
@@ -84,7 +86,9 @@ const Token = ({
   const transferTokens = async () => {
     try {
       if (!transfer) {
-        return alert("We couldn't transfer funds. Please try again later.");
+        return toast.error(
+          "We couldn't transfer funds. Please try again later."
+        );
       }
 
       await transfer();
@@ -124,48 +128,53 @@ const Token = ({
       </S.TokenHeader>
 
       <S.TokenResult>
-        {isLoading ? (
-          <Loading />
-        ) : (
-          <Fragment>
-            <S.TokenResultBalanceText>{tokenBalance}</S.TokenResultBalanceText>
-            {shouldShowTransferInput ? (
-              <Fragment>
-                <S.TokenTransferInputText>To Address</S.TokenTransferInputText>
-                <S.TokenTransferInput
-                  value={address}
-                  onChange={(e) => setAddress(e.target.value)}
-                  placeholder="To Address"
-                  type="text"
-                />
+        <Fragment>
+          <S.TokenResultBalanceText>{tokenBalance}</S.TokenResultBalanceText>
+          {shouldShowTransferInput ? (
+            <Fragment>
+              <S.TokenTransferInputText>To Address</S.TokenTransferInputText>
+              <S.TokenTransferInput
+                value={address}
+                disabled={isFormBlocked}
+                onChange={(e) => setAddress(e.target.value)}
+                placeholder="To Address"
+                type="text"
+              />
 
-                <S.TokenTransferInputText>Amount</S.TokenTransferInputText>
-                <S.TokenTransferInput
-                  value={amount}
-                  onChange={(e) => setAmount(e.target.value)}
-                  placeholder="Token Amount"
-                  type="number"
-                />
+              <S.TokenTransferInputText>Amount</S.TokenTransferInputText>
+              <S.TokenTransferInput
+                value={amount}
+                disabled={isFormBlocked}
+                onChange={(e) => setAmount(e.target.value)}
+                placeholder="Token Amount"
+                type="number"
+              />
 
-                <S.TokenResultFlexRow>
-                  <S.TokenButton className="cancel" onClick={reset}>
-                    Cancel
-                  </S.TokenButton>
-                  <S.TokenButton
-                    disabled={!isNotOnEthereumMainnet && (!address || !amount)}
-                    onClick={
-                      isNotOnEthereumMainnet ? switchToMainnet : onTransfer
-                    }
-                  >
-                    {isNotOnEthereumMainnet ? "Switch to Mainnet" : "Submit"}
-                  </S.TokenButton>
-                </S.TokenResultFlexRow>
-              </Fragment>
-            ) : (
-              <S.TokenButton onClick={onTransferSubmit}>Transfer</S.TokenButton>
-            )}
-          </Fragment>
-        )}
+              <S.TokenResultFlexRow>
+                <S.TokenButton
+                  className="cancel"
+                  onClick={reset}
+                  disabled={isFormBlocked}
+                >
+                  Cancel
+                </S.TokenButton>
+                <S.TokenButton
+                  disabled={
+                    (!isNotOnEthereumMainnet && (!address || !amount)) ||
+                    isFormBlocked
+                  }
+                  onClick={
+                    isNotOnEthereumMainnet ? switchToMainnet : onTransfer
+                  }
+                >
+                  {isNotOnEthereumMainnet ? "Switch to Mainnet" : "Submit"}
+                </S.TokenButton>
+              </S.TokenResultFlexRow>
+            </Fragment>
+          ) : (
+            <S.TokenButton onClick={onTransferSubmit}>Transfer</S.TokenButton>
+          )}
+        </Fragment>
       </S.TokenResult>
     </S.Token>
   );

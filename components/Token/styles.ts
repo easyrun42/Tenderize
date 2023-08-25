@@ -60,6 +60,10 @@ export const TokenTransferInput = styled.input`
   border: 1px solid #3e2acf;
   padding: 8px;
   width: 100%;
+
+  &:disabled {
+    opacity: 0.7;
+  }
 `;
 
 export const TokenButton = styled.button`
